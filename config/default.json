@@ -1,0 +1,11 @@
+{
+	"app": {
+		"rootPath":"/blockchain/api/ethaccess",
+        "ethereum": {
+            "url": "http://localhost:8545",
+            "creator": {
+                "account": "eth.accounts[0]"
+            }
+        },
+	}
+}
