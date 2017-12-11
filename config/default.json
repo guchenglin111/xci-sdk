@@ -6,6 +6,6 @@
             "creator": {
                 "account": "eth.accounts[0]"
             }
-        },
+        }
 	}
 }
