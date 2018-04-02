@@ -1,10 +1,11 @@
 {
 	"app": {
-		"rootPath":"/blockchain/api/ethaccess",
+		"rootPath":"/xcareteam/xci",
         "ethereum": {
-            "url": "http://localhost:8545",
+            "url": "http://192.168.1.2:8545",
             "creator": {
-                "account": "eth.accounts[0]"
+                "account": "0x5b6ee351fe436b43da8a9de506e1c442664176c6",
+		"password": "lhy"
             }
         }
 	}

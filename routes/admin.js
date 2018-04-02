@@ -1,7 +1,7 @@
 /**
  * @swagger
- * resourcePath: /ops
- * description: Certificate operation API
+ * resourcePath: /admin
+ * description: XCI blockchain admin API
  */ 
 var express = require('express');
 var router = express.Router();
@@ -17,15 +17,11 @@ router.get('/test', function(req, res, next) {
 
 /**
  * @swagger
- * path: /ops/getBlockNumber
+ * path: /admin/getBlockNumber
  * operations:
  *   - httpMethod: GET
  *     nickname: getBlockNumber
  *     summary: get the block number of the blockchain
- *     consumes:
- *       - application/json
- *     parameters:
- *       - name: none
  */
 router.get('/getBlockNumber', function(req, res){
   return web3.getBlockNumber().then((blockNumber)=>{
@@ -38,6 +34,20 @@ router.get('/getBlockNumber', function(req, res){
     });
 });
 
+/**
+ * @swagger
+ * path: /admin/getBlock/{blocknumber}
+ * operations:
+ *   - httpMethod: GET
+ *     nickname: getBlock
+ *     summary: get detailed block info for specific block number
+ *     parameters:
+ *       - name: blockNumber
+ *         paramType: path
+ *         dataType: int
+ *         description: block number
+ *         required: true
+ */
 router.get('/getBlock/:blocknumber', function(req, res){
   let no = req.params.blocknumber;
   return web3.getBlock(no).then((block)=>{
@@ -50,6 +60,14 @@ router.get('/getBlock/:blocknumber', function(req, res){
     });
 });
 
+/**
+ * @swagger
+ * path: /admin/getAccounts
+ * operations:
+ *   - httpMethod: GET
+ *     nickname: getAccountsList
+ *     summary: list all accounts
+ */
 router.get('/getAccounts', function(req, res){
   return web3.getAccounts().then((accounts)=>{
         res.json({
@@ -61,6 +79,20 @@ router.get('/getAccounts', function(req, res){
     });
 });
 
+/**
+ * @swagger
+ * path: /admin/getTransaction/{txhash}
+ * operations:
+ *   - httpMethod: GET
+ *     nickname: getTransaction
+ *     summary: get detailed transaction info for specific txhash
+ *     parameters:
+ *       - name: txhash
+ *         paramType: path
+ *         dataType: string
+ *         description: transaction hash
+ *         required: true
+ */
 router.get('/getTransaction/:txhash', function(req, res){
   let txhash = req.params.txhash;
   return web3.getTransaction(txhash).then((tx)=>{

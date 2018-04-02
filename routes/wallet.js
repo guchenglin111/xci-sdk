@@ -1,7 +1,7 @@
 /**
  * @swagger
- * resourcePath: /ops
- * description: Certificate operation API
+ * resourcePath: /wallet
+ * description: Wallet API
  */ 
 var express = require('express');
 var router = express.Router();
@@ -16,15 +16,17 @@ const dao = require('../dao/accountDAO.js')
 
 /**
  * @swagger
- * path: /ops/getBlockNumber
+ * path: /wallet/getBalance/{address}
  * operations:
  *   - httpMethod: GET
- *     nickname: getBlockNumber
- *     summary: get the block number of the blockchain
- *     consumes:
- *       - application/json
+ *     nickname: getBalance
+ *     summary: get balance of specific address
  *     parameters:
- *       - name: none
+ *       - name: address
+ *         paramType: path
+ *         dataType: string
+ *         description: XCI address
+ *         required: true
  */
 router.get('/getBalance/:address', function(req, res){
   let address = req.params.address;
@@ -41,18 +43,20 @@ router.get('/getBalance/:address', function(req, res){
 
 /**
  * @swagger
- * path: /ops/getBlockNumber
+ * path: /wallet/newAccount/{password}
  * operations:
  *   - httpMethod: GET
- *     nickname: getBlockNumber
- *     summary: get the block number of the blockchain
- *     consumes:
- *       - application/json
+ *     nickname: newAccount
+ *     summary: create new account
  *     parameters:
- *       - name: none
+ *       - name: password
+ *         paramType: path
+ *         dataType: string
+ *         description: keystore password
+ *         required: true
  */
-router.get('/newAccount/:pwd', function(req, res){
-  let pwd = req.params.pwd;
+router.get('/newAccount/:password', function(req, res){
+  let pwd = req.params.password;
 
   return walletapi.newAccount(pwd).then((address)=>{
         res.json({
@@ -66,15 +70,22 @@ router.get('/newAccount/:pwd', function(req, res){
 
 /**
  * @swagger
- * path: /ops/getBlockNumber
+ * path: /wallet/encodePriKey/{privateKey}/{token}
  * operations:
  *   - httpMethod: GET
- *     nickname: getBlockNumber
- *     summary: get the block number of the blockchain
- *     consumes:
- *       - application/json
+ *     nickname: encodePriKey
+ *     summary: encode private key
  *     parameters:
- *       - name: none
+ *       - name: privateKey
+ *         paramType: path
+ *         dataType: string
+ *         description: private key hex string
+ *         required: true
+ *       - name: token
+ *         paramType: path
+ *         dataType: string
+ *         description: token type, such as BTC, ETH, QTUM
+ *         required: true
  */
 router.get('/encodePriKey/:privateKey/:token', function(req, res){
     let privateKey = req.params.privateKey;
@@ -91,15 +102,17 @@ router.get('/encodePriKey/:privateKey/:token', function(req, res){
 
 /**
  * @swagger
- * path: /ops/getBlockNumber
+ * path: /wallet/importRawKey
  * operations:
- *   - httpMethod: GET
- *     nickname: getBlockNumber
- *     summary: get the block number of the blockchain
- *     consumes:
- *       - application/json
+ *   - httpMethod: POST
+ *     nickname: importRawKey
+ *     summary: 
  *     parameters:
- *       - name: none
+ *       - name: args
+ *         paramType: body 
+ *         dataType: accountDAO
+ *         description: account private key and password
+ *         required: true
  */
 router.post('/importRawKey', function(req, res){
   let pri = req.body.pri;
@@ -157,18 +170,6 @@ router.get('/privateKeyToAccount/:pri', function(req, res){
 	});
 });
 
-/**
- * @swagger
- * path: /ops/getBlockNumber
- * operations:
- *   - httpMethod: GET
- *     nickname: getBlockNumber
- *     summary: get the block number of the blockchain
- *     consumes:
- *       - application/json
- *     parameters:
- *       - name: none
- */
 router.get('/entropyToMnemonic/:privateKey', function(req, res){
     let privateKey = req.params.privateKey;
     var mnemonic = bip.getMnemonic(privateKey);
@@ -181,18 +182,6 @@ router.get('/entropyToMnemonic/:privateKey', function(req, res){
 	});
 });
 
-/**
- * @swagger
- * path: /ops/getBlockNumber
- * operations:
- *   - httpMethod: GET
- *     nickname: getBlockNumber
- *     summary: get the block number of the blockchain
- *     consumes:
- *       - application/json
- *     parameters:
- *       - name: none
- */
 router.get('/mnemonicToEntropy/:mnemonic', function(req, res){
     let mnemonic = req.params.mnemonic;
     var privateKey = bip.getEntropy(mnemonic);
