@@ -106,7 +106,7 @@ router.get('/encodePriKey/:privateKey/:token', function(req, res){
  * operations:
  *   - httpMethod: POST
  *     nickname: importRawKey
- *     summary: 
+ *     summary: import user key
  *     parameters:
  *       - name: args
  *         paramType: body 
