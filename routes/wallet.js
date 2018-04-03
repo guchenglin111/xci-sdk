@@ -110,7 +110,7 @@ router.get('/encodePriKey/:privateKey/:token', function(req, res){
  *     parameters:
  *       - name: args
  *         paramType: body 
- *         dataType: accountDAO
+ *         dataType: dao
  *         description: account private key and password
  *         required: true
  */
