@@ -1,12 +1,12 @@
 {
 	"app": {
 		"rootPath":"/xcareteam/xci",
-        "ethereum": {
-            "url": "http://106.75.152.79:12348",
-            "creator": {
-                "account": "0x5b6ee351fe436b43da8a9de506e1c442664176c6",
-		"password": "lhy"
-            }
-        }
+        	"ethereum": {
+            		"url": "http://192.168.1.106:8545",
+            		"creator": {
+                		"account": "0x5b6ee351fe436b43da8a9de506e1c442664176c6",
+				"password": "lhy"
+            		}
+        	}
 	}
 }
