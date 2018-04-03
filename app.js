@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var admin = require('./routes/admin');
 var wallet = require('./routes/wallet');
+var xcare = require('./routes/xcare');
 
 const swagger = require('swagger-express');
 const rootPath = require('config').app.rootPath;
@@ -36,11 +37,12 @@ app.use(swagger.init(app, {
     swaggerURL: '/swagger',
     swaggerJSON: '/api-docs.json',
     swaggerUI: './public/swagger/',
-    apis: ['./routes/wallet.js','./routes/admin.js']
+    apis: ['./routes/wallet.js','./routes/admin.js','./routes/xcare.js']
 }));
 
 app.use(rootPath + '/admin', admin);
 app.use(rootPath + '/wallet', wallet);
+app.use(rootPath + '/xcare', xcare);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

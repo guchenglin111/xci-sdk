@@ -101,6 +101,18 @@ router.get('/encodePriKey/:privateKey/:token', function(req, res){
 });
 
 /**
+ *  @swagger
+ *  models:
+ *    ImportRawKeyRequest:
+ *      id: ImportRawKeyRequest
+ *      properties:
+ *        pri:
+ *          type: string
+ *        pwd:
+ *          type: string
+ */
+
+/**
  * @swagger
  * path: /wallet/importRawKey
  * operations:
@@ -110,13 +122,13 @@ router.get('/encodePriKey/:privateKey/:token', function(req, res){
  *     parameters:
  *       - name: args
  *         paramType: body 
- *         dataType: dao
+ *         dataType: ImportRawKeyRequest
  *         description: account private key and password
  *         required: true
  */
 router.post('/importRawKey', function(req, res){
-  let pri = req.body.pri;
-  let pwd = req.body.pwd;
+  let pri = args.pri;
+  let pwd = args.pwd;
 
   return walletapi.importRawKey(pri, pwd).then((address)=>{
   		  //cache.put(pri, address);
