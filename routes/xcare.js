@@ -9,7 +9,7 @@ var logger = require('../lib/common/winstonlog.js');
 const web3 = require('../lib/common/xcare.js');
 const VError = require('verror');
 const Q = require('q');
-
+//const toInt = ((n)=> typeof n === 'number'? n : parseInt(n));
 /**
  *  @swagger
  *  models:
@@ -35,6 +35,14 @@ const Q = require('q');
  *   - httpMethod: POST
  *     nickname: commitXciData
  *     summary: commit xci data
+ *     notes: parameter example 
+ *                      {
+ *                              "address":"0x6b5feec1fe9498347c9175998807a51292e8c29b",
+ *                              "passphrase":"111",
+ *                              "ipfsEndpoint":"127.0.0.1:50001:51094:2:3",
+ *                              "did":"did-123456",
+ *                              "data":"MTIzNDU2Nw=="
+ *                      }
  *     consumes:
  *       - application/json
  *     parameters:
@@ -68,6 +76,14 @@ router.post('/commitXciData', function(req, res){
  *   - httpMethod: POST
  *     nickname: commitNewOwnerData
  *     summary: commmit new owner data
+ *     notes: parameter example
+ *                      {
+ *                              "address":"0x6b5feec1fe9498347c9175998807a51292e8c29b",
+ *                              "passphrase":"111",
+ *                              "ipfsEndpoint":"127.0.0.1:50001:51094:2:3",
+ *                              "did":"did-123456",
+ *                              "data":"MTIzNDU2Nw=="
+ *                      }
  *     parameters:
  *       - name: args
  *         paramType: body
@@ -112,6 +128,12 @@ router.post('/commitNewOwnerData', function(req, res){
  *   - httpMethod: POST
  *     nickname: deletePreOwnerData
  *     summary: delete pre own xci data
+ *     notes: parameter example
+ *                      {
+ *                              "address":"0x6b5feec1fe9498347c9175998807a51292e8c29b",
+ *                              "passphrase":"111",
+ *                              "did":"did-123456"
+ *                      }
  *     parameters:
  *       - name: args
  *         paramType: body
@@ -156,6 +178,13 @@ router.post('/deletePreOwnerData', function(req, res){
  *   - httpMethod: POST
  *     nickname: transferDidOwner
  *     summary: transfer did owner
+ *     notes: parameter example
+ *                      {
+ *                              "address":"0x6b5feec1fe9498347c9175998807a51292e8c29b",
+ *                              "passphrase":"111",
+ *                              "did":"did-123456",
+ *                              "to":"0x4f95b208a08ed2eae8f5124664dc170308521d5e"
+ *                      }
  *     parameters:
  *       - name: args
  *         paramType: body
@@ -203,6 +232,14 @@ router.post('/transferDidOwner', function(req, res){
  *   - httpMethod: POST
  *     nickname: authorizeXcdata
  *     summary: authorize data to other people
+ *     notes: parameter example
+ *                      {
+ *                              "address":"0x6b5feec1fe9498347c9175998807a51292e8c29b",
+ *                              "passphrase":"111",
+ *                              "publicKey":"046c0ddb39d1a298f15544ab3c2437cd9f514e07fa1a41cf4b39f723c82ed6905921073d5524c50483bf4d1ed544203e74f1b9a6d121a3879486c6d64c35d568dc",
+ *                              "did":"did-123456",
+ *                              "index":0
+ *                      }
  *     parameters:
  *       - name: args
  *         paramType: body
@@ -215,7 +252,7 @@ router.post('/authorizeXcdata', function(req, res){
   let passphrase = req.body.passphrase;
   let publicKey = req.body.publicKey;
   let did = req.body.did;
-  let to = req.body.index;
+  let index = req.body.index;
   return web3.authorizeXcdata(address,passphrase,publicKey,did,index).then((txhash)=>{
         res.json({
               "result": "success",
@@ -277,6 +314,14 @@ router.get('/getXciDataLength/:did', function(req, res){
  *   - httpMethod: POST
  *     nickname: getXciData
  *     summary: get xci data
+ *     notes: parameter example
+ *                      {
+ *                              "address":"0x6b5feec1fe9498347c9175998807a51292e8c29b",
+ *                              "passphrase":"111",
+ *                              "ipfsEndpoint":"127.0.0.1:50001",
+ *                              "did":"did-123456",
+ *                              "index":0
+ *                      }
  *     parameters:
  *       - name: args
  *         paramType: body
@@ -302,7 +347,7 @@ router.post('/getXciData', function(req, res){
 
 /**
  * @swagger
- * path: /xcare/getXciDataTimestamp
+ * path: /xcare/getXciDataTimestamp/{did}/{index}
  * operations:
  *   - httpMethod: GET
  *     nickname: getXciDataTimestamp
@@ -334,10 +379,10 @@ router.get('/getXciDataTimestamp/:did/:index', function(req, res){
 
 /**
  * @swagger
- * path: /xcare/getAutherizedDataLength/{address}
+ * path: /xcare/getAuthorizedDataLength/{address}
  * operations:
  *   - httpMethod: GET
- *     nickname: getAutherizedDataLength
+ *     nickname: getAuthorizedDataLength
  *     summary: get xci data length
  *     parameters:
  *       - name: address
@@ -346,9 +391,9 @@ router.get('/getXciDataTimestamp/:did/:index', function(req, res){
  *         description: 
  *         required: true
  */
-router.get('/getAutherizedDataLength/:address', function(req, res){
+router.get('/getAuthorizedDataLength/:address', function(req, res){
   let address= req.params.address;
-  return web3.getAutherizedDataLength(address).then((length)=>{
+  return web3.getAuthorizedDataLength(address).then((length)=>{
         res.json({
               "result": "success",
               "errorMsg": null,
@@ -360,10 +405,10 @@ router.get('/getAutherizedDataLength/:address', function(req, res){
 
 /**
  * @swagger
- * path: /xcare/getAutherizedAESKeyByHash/{address}/{ipfsHash}
+ * path: /xcare/getAuthorizedAESKeyByHash/{address}/{ipfsHash}
  * operations:
  *   - httpMethod: GET
- *     nickname: getAutherizedAESKeyByHash
+ *     nickname: getAuthorizedAESKeyByHash
  *     summary: get AES key by ipfsHash
  *     parameters:
  *       - name: address
@@ -377,10 +422,10 @@ router.get('/getAutherizedDataLength/:address', function(req, res){
  *         description: 
  *         required: true
  */
-router.get('/getAutherizedAESKeyByHash/:address/:ipfsHash', function(req, res){
+router.get('/getAuthorizedAESKeyByHash/:address/:ipfsHash', function(req, res){
   let address = req.params.address;
   let ipfsHash = req.params.ipfsHash;
-  return web3.getAutherizedAESKeyByHash(address,ipfsHash).then((key)=>{
+  return web3.getAuthorizedAESKeyByHash(address,ipfsHash).then((key)=>{
         res.json({
               "result": "success",
               "errorMsg": null,
@@ -393,8 +438,8 @@ router.get('/getAutherizedAESKeyByHash/:address/:ipfsHash', function(req, res){
 /**
  *  @swagger
  *  models:
- *    GetAutherizedDataRequest:
- *      id: GetAutherizedDataRequest
+ *    GetAuthorizedDataRequest:
+ *      id: GetAuthorizedDataRequest
  *      properties:
  *        address:
  *          type: string
@@ -408,24 +453,31 @@ router.get('/getAutherizedAESKeyByHash/:address/:ipfsHash', function(req, res){
 
 /**
  * @swagger
- * path: /xcare/getAutherizedData
+ * path: /xcare/getAuthorizedData
  * operations:
  *   - httpMethod: POST
- *     nickname: getAutherizedData
- *     summary: get autherized data
+ *     nickname: getAuthorizedData
+ *     summary: get authorized data
+ *     notes: parameter example
+ *                      {
+ *                              "address":"0x6b5feec1fe9498347c9175998807a51292e8c29b",
+ *                              "passphrase":"111",
+ *                              "ipfsEndpoint":"127.0.0.1:50001:51094:2:3",
+ *                              "ipfsHash":""
+ *                      }
  *     parameters:
  *       - name: args
  *         paramType: body
- *         dataType: GetAutherizedDataRequest
+ *         dataType: GetAuthorizedDataRequest
  *         description: 
  *         required: true
  */
-router.post('/getAutherizedData', function(req, res){
+router.post('/getAuthorizedData', function(req, res){
   let address = req.body.address;
   let passphrase = req.body.passphrase;
   let ipfsEndpoint = req.body.ipfsEndpoint;
   let ipfsHash= req.body.ipfsHash;
-  return web3.getAutherizedData(address,passphrase,ipfsEndpoint,ipfsHash).then((data)=>{
+  return web3.getAuthorizedData(address,passphrase,ipfsEndpoint,ipfsHash).then((data)=>{
         res.json({
               "result": "success",
               "errorMsg": null,

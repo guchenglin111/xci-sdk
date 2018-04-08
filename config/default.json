@@ -2,10 +2,10 @@
 	"app": {
 		"rootPath":"/xcareteam/xci",
         	"ethereum": {
-            		"url": "http://192.168.1.106:8545",
+            		"url": "http://localhost:8545",
             		"creator": {
-                		"account": "0x5b6ee351fe436b43da8a9de506e1c442664176c6",
-				"password": "lhy"
+                		"account": "0x6b5feec1fe9498347c9175998807a51292e8c29b",
+				"password": "111"
             		}
         	}
 	}
