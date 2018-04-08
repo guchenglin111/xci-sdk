@@ -460,10 +460,10 @@ router.get('/getAuthorizedAESKeyByHash/:address/:ipfsHash', function(req, res){
  *     summary: get authorized data
  *     notes: parameter example
  *                      {
- *                              "address":"0x6b5feec1fe9498347c9175998807a51292e8c29b",
- *                              "passphrase":"111",
- *                              "ipfsEndpoint":"127.0.0.1:50001:51094:2:3",
- *                              "ipfsHash":""
+ *                              "address":"0x02f6b9afc3bac1d0a2bbdfc4c43f2dc863973288",
+ *                              "passphrase":"115",
+ *                              "ipfsEndpoint":"127.0.0.1:50001",
+ *                              "ipfsHash":"QmRArwgbVvoEJdfATmCcBXLGMoR8SK4s7a44KTZsyQ3N5m"
  *                      }
  *     parameters:
  *       - name: args
