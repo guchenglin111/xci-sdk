@@ -18,8 +18,6 @@ const Q = require('q');
  *      properties:
  *        address:
  *          type: string
- *        passphrase:
- *          type: string
  *        ipfsEndpoint:
  *          type: string
  *        did:
@@ -38,7 +36,6 @@ const Q = require('q');
  *     notes: parameter example 
  *                      {
  *                              "address":"0x6b5feec1fe9498347c9175998807a51292e8c29b",
- *                              "passphrase":"111",
  *                              "ipfsEndpoint":"127.0.0.1:50001:51094:2:3",
  *                              "did":"did-123456",
  *                              "data":"MTIzNDU2Nw=="
@@ -55,11 +52,10 @@ const Q = require('q');
  */
 router.post('/commitXciData', function(req, res){
   let address = req.body.address;
-  let passphrase = req.body.passphrase;
   let ipfsEndpoint = req.body.ipfsEndpoint;
   let did = req.body.did;
   let data = req.body.data;
-  return web3.commitXciData(address,passphrase,ipfsEndpoint,did,data).then((txhash)=>{
+  return web3.commitXciData(address,ipfsEndpoint,did,data).then((txhash)=>{
         res.json({
               "result": "success",
               "errorMsg": null,
@@ -79,7 +75,6 @@ router.post('/commitXciData', function(req, res){
  *     notes: parameter example
  *                      {
  *                              "address":"0x6b5feec1fe9498347c9175998807a51292e8c29b",
- *                              "passphrase":"111",
  *                              "ipfsEndpoint":"127.0.0.1:50001:51094:2:3",
  *                              "did":"did-123456",
  *                              "data":"MTIzNDU2Nw=="
@@ -93,11 +88,10 @@ router.post('/commitXciData', function(req, res){
  */
 router.post('/commitNewOwnerData', function(req, res){
   let address = req.body.address;
-  let passphrase = req.body.passphrase;
   let ipfsEndpoint = req.body.ipfsEndpoint;
   let did = req.body.did;
   let data = req.body.data;
-  return web3.commitNewOwnerData(address,passphrase,ipfsEndpoint,did,data).then((txhash)=>{
+  return web3.commitNewOwnerData(address,ipfsEndpoint,did,data).then((txhash)=>{
         res.json({
               "result": "success",
               "errorMsg": null,
@@ -115,8 +109,6 @@ router.post('/commitNewOwnerData', function(req, res){
  *      properties:
  *        address:
  *          type: string
- *        passphrase:
- *          type: string
  *        did:
  *          type: string
  */
@@ -131,7 +123,6 @@ router.post('/commitNewOwnerData', function(req, res){
  *     notes: parameter example
  *                      {
  *                              "address":"0x6b5feec1fe9498347c9175998807a51292e8c29b",
- *                              "passphrase":"111",
  *                              "did":"did-123456"
  *                      }
  *     parameters:
@@ -143,9 +134,8 @@ router.post('/commitNewOwnerData', function(req, res){
  */
 router.post('/deletePreOwnerData', function(req, res){
   let address = req.body.address;
-  let passphrase = req.body.passphrase;
   let did = req.body.did;
-  return web3.deletePreOwnerData(address,passphrase,did).then((txhash)=>{
+  return web3.deletePreOwnerData(address,did).then((txhash)=>{
         res.json({
               "result": "success",
               "errorMsg": null,
@@ -163,8 +153,6 @@ router.post('/deletePreOwnerData', function(req, res){
  *      properties:
  *        address:
  *          type: string
- *        passphrase:
- *          type: string
  *        did:
  *          type: string
  *        to:
@@ -181,7 +169,6 @@ router.post('/deletePreOwnerData', function(req, res){
  *     notes: parameter example
  *                      {
  *                              "address":"0x6b5feec1fe9498347c9175998807a51292e8c29b",
- *                              "passphrase":"111",
  *                              "did":"did-123456",
  *                              "to":"0x4f95b208a08ed2eae8f5124664dc170308521d5e"
  *                      }
@@ -194,10 +181,9 @@ router.post('/deletePreOwnerData', function(req, res){
  */
 router.post('/transferDidOwner', function(req, res){
   let address = req.body.address;
-  let passphrase = req.body.passphrase;
   let did = req.body.did;
   let to = req.body.to;
-  return web3.transferDidOwner(address,passphrase,did,to).then((txhash)=>{
+  return web3.transferDidOwner(address,did,to).then((txhash)=>{
         res.json({
               "result": "success",
               "errorMsg": null,
@@ -214,8 +200,6 @@ router.post('/transferDidOwner', function(req, res){
  *      id: AuthorizeXcdataRequest
  *      properties:
  *        address:
- *          type: string
- *        passphrase:
  *          type: string
  *        publicKey:
  *          type: string
@@ -235,7 +219,6 @@ router.post('/transferDidOwner', function(req, res){
  *     notes: parameter example
  *                      {
  *                              "address":"0x6b5feec1fe9498347c9175998807a51292e8c29b",
- *                              "passphrase":"111",
  *                              "publicKey":"046c0ddb39d1a298f15544ab3c2437cd9f514e07fa1a41cf4b39f723c82ed6905921073d5524c50483bf4d1ed544203e74f1b9a6d121a3879486c6d64c35d568dc",
  *                              "did":"did-123456",
  *                              "index":0
@@ -249,11 +232,10 @@ router.post('/transferDidOwner', function(req, res){
  */
 router.post('/authorizeXcdata', function(req, res){
   let address = req.body.address;
-  let passphrase = req.body.passphrase;
   let publicKey = req.body.publicKey;
   let did = req.body.did;
   let index = req.body.index;
-  return web3.authorizeXcdata(address,passphrase,publicKey,did,index).then((txhash)=>{
+  return web3.authorizeXcdata(address,publicKey,did,index).then((txhash)=>{
         res.json({
               "result": "success",
               "errorMsg": null,
@@ -297,8 +279,6 @@ router.get('/getXciDataLength/:did', function(req, res){
  *      properties:
  *        address:
  *          type: string
- *        passphrase:
- *          type: string
  *        ipfsEndpoint:
  *          type: string
  *        did:
@@ -317,7 +297,6 @@ router.get('/getXciDataLength/:did', function(req, res){
  *     notes: parameter example
  *                      {
  *                              "address":"0x6b5feec1fe9498347c9175998807a51292e8c29b",
- *                              "passphrase":"111",
  *                              "ipfsEndpoint":"127.0.0.1:50001",
  *                              "did":"did-123456",
  *                              "index":0
@@ -331,11 +310,10 @@ router.get('/getXciDataLength/:did', function(req, res){
  */
 router.post('/getXciData', function(req, res){
   let address = req.body.address;
-  let passphrase = req.body.passphrase;
   let ipfsEndpoint = req.body.ipfsEndpoint;
   let did = req.body.did;
   let index = req.body.index;
-  return web3.getXciData(address,passphrase,ipfsEndpoint,did,index).then((data)=>{
+  return web3.getXciData(address,ipfsEndpoint,did,index).then((data)=>{
         res.json({
               "result": "success",
               "errorMsg": null,
@@ -443,8 +421,6 @@ router.get('/getAuthorizedAESKeyByHash/:address/:ipfsHash', function(req, res){
  *      properties:
  *        address:
  *          type: string
- *        passphrase:
- *          type: string
  *        ipfsEndpoint:
  *          type: string
  *        ipfsHash:
@@ -461,7 +437,6 @@ router.get('/getAuthorizedAESKeyByHash/:address/:ipfsHash', function(req, res){
  *     notes: parameter example
  *                      {
  *                              "address":"0x02f6b9afc3bac1d0a2bbdfc4c43f2dc863973288",
- *                              "passphrase":"115",
  *                              "ipfsEndpoint":"127.0.0.1:50001",
  *                              "ipfsHash":"QmRArwgbVvoEJdfATmCcBXLGMoR8SK4s7a44KTZsyQ3N5m"
  *                      }
@@ -474,10 +449,9 @@ router.get('/getAuthorizedAESKeyByHash/:address/:ipfsHash', function(req, res){
  */
 router.post('/getAuthorizedData', function(req, res){
   let address = req.body.address;
-  let passphrase = req.body.passphrase;
   let ipfsEndpoint = req.body.ipfsEndpoint;
   let ipfsHash= req.body.ipfsHash;
-  return web3.getAuthorizedData(address,passphrase,ipfsEndpoint,ipfsHash).then((data)=>{
+  return web3.getAuthorizedData(address,ipfsEndpoint,ipfsHash).then((data)=>{
         res.json({
               "result": "success",
               "errorMsg": null,

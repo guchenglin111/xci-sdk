@@ -17,6 +17,41 @@ router.get('/test', function(req, res, next) {
 
 /**
  * @swagger
+ * path: /admin/unlockAccount/{address}/{passphrase}
+ * operations:
+ *   - httpMethod: GET
+ *     nickname: unlockAccount
+ *     summary: unlock account, then we can use this account to commit and authorize data
+ *     parameters:
+ *       - name: address
+ *         paramType: path
+ *         dataType: string
+ *         description: XCI address
+ *         required: true
+ *       - name: passphrase
+ *         paramType: path
+ *         dataType: string
+ *         description: account password
+ *         required: true
+
+ */
+router.get('/unlockAccount/:address/:passphrase', function(req, res){
+  let address = req.params.address;
+  let passphrase = req.params.passphrase;
+
+  return web3.unlockAccount(address,passphrase).then((result)=>{
+        res.json({
+              "result": "success",
+              "errorMsg": null,
+              "errorCode": null,
+              "content": result
+          });
+    });
+});
+
+
+/**
+ * @swagger
  * path: /admin/getBlockNumber
  * operations:
  *   - httpMethod: GET
