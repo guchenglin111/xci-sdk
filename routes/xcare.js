@@ -461,4 +461,85 @@ router.post('/getAuthorizedData', function(req, res){
     });
 });
 
+/**
+ * @swagger
+ * path: /xcare/getAuthorizeEvent/{to}/{fromBlockNumber}/{toBlockNumber}
+ * operations:
+ *   - httpMethod: GET
+ *     nickname: getAuthorizeEvent
+ *     summary: get xci data length
+ *     parameters:
+ *       - name: to
+ *         paramType: path
+ *         dataType: string
+ *         description:
+ *         required: true
+ *       - name: fromBlockNumber
+ *         paramType: path
+ *         dataType: int
+ *         description:
+ *         required: true
+ *       - name: toBlockNumber
+ *         paramType: path
+ *         dataType: int
+ *         description:
+ *         required: true
+
+ */
+router.get('/getAuthorizeEvent/:to/:fromBlockNumber/:toBlockNumber', function(req, res){
+  let to= req.params.to;
+  let fromBlockNumber = req.params.fromBlockNumber;
+  let toBlockNumber = req.params.toBlockNumber
+  return web3.getXcdataAuthorizeEvent(fromBlockNumber,toBlockNumber,to).then((eventList)=>{
+        res.json({
+              "result": "success",
+              "errorMsg": null,
+              "errorCode": null,
+              "content": eventList
+          });
+    });
+
+});
+
+/**
+ * @swagger
+ * path: /xcare/getCommitEvent/{from}/{fromBlockNumber}/{toBlockNumber}
+ * operations:
+ *   - httpMethod: GET
+ *     nickname: getCommitEvent
+ *     summary: get xci data length
+ *     parameters:
+ *       - name: from
+ *         paramType: path
+ *         dataType: string
+ *         description:
+ *         required: true
+ *       - name: fromBlockNumber
+ *         paramType: path
+ *         dataType: int
+ *         description:
+ *         required: true
+ *       - name: toBlockNumber
+ *         paramType: path
+ *         dataType: int
+ *         description:
+ *         required: true
+
+ */
+router.get('/getCommitEvent/:from/:fromBlockNumber/:toBlockNumber', function(req, res){
+  let from= req.params.from;
+  let fromBlockNumber = req.params.fromBlockNumber;
+  let toBlockNumber = req.params.toBlockNumber
+  return web3.getXcdataCommitEvent(fromBlockNumber,toBlockNumber,from).then((eventList)=>{
+        res.json({
+              "result": "success",
+              "errorMsg": null,
+              "errorCode": null,
+              "content": eventList
+          });
+    });
+
+});
+
+
 module.exports = router;
