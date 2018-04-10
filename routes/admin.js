@@ -17,7 +17,7 @@ router.get('/test', function(req, res, next) {
 
 /**
  * @swagger
- * path: /admin/unlockAccount/{address}/{passphrase}
+ * path: /admin/unlockAccount/{address}/{passphrase}/{period}
  * operations:
  *   - httpMethod: GET
  *     nickname: unlockAccount
@@ -33,13 +33,17 @@ router.get('/test', function(req, res, next) {
  *         dataType: string
  *         description: account password
  *         required: true
-
+ *       - name: period
+ *         paramType: path
+ *         dataType: int
+ *         description: specify how long the account will be unlocked, unit is second.
+ *         required: true
  */
-router.get('/unlockAccount/:address/:passphrase', function(req, res){
+router.get('/unlockAccount/:address/:passphrase/:period', function(req, res){
   let address = req.params.address;
   let passphrase = req.params.passphrase;
-
-  return web3.unlockAccount(address,passphrase).then((result)=>{
+  let period = parseInt(req.params.period);
+  return web3.unlockAccount(address,passphrase,period).then((result)=>{
         res.json({
               "result": "success",
               "errorMsg": null,
