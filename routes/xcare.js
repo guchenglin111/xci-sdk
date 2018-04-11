@@ -62,6 +62,13 @@ router.post('/commitXciData', function(req, res){
               "errorCode": null,
               "content": txhash
           });
+    }).fail((err)=>{
+        console.log(VError.info(err).errno);
+        res.json({
+              "result": "failed",
+              "errorMsg": err.message,
+              "errorCode": VError.info(err).errno
+          });
     });
 });
 
@@ -97,6 +104,12 @@ router.post('/commitNewOwnerData', function(req, res){
               "errorMsg": null,
               "errorCode": null,
               "content": txhash
+          });
+    }).fail((err)=>{
+        res.json({
+              "result": "failed",
+              "errorMsg": err.message,
+              "errorCode": VError.info(err).errno
           });
     });
 });
@@ -141,6 +154,12 @@ router.post('/deletePreOwnerData', function(req, res){
               "errorMsg": null,
               "errorCode": null,
               "content": txhash
+          });
+    }).fail((err)=>{
+        res.json({
+              "result": "failed",
+              "errorMsg": err.message,
+              "errorCode": VError.info(err).errno
           });
     });
 });
@@ -189,6 +208,12 @@ router.post('/transferDidOwner', function(req, res){
               "errorMsg": null,
               "errorCode": null,
               "content": txhash
+          });
+    }).fail((err)=>{
+        res.json({
+              "result": "failed",
+              "errorMsg": err.message,
+              "errorCode": VError.info(err).errno
           });
     });
 });
@@ -242,6 +267,12 @@ router.post('/authorizeXcdata', function(req, res){
               "errorCode": null,
               "content": txhash
           });
+    }).fail((err)=>{
+        res.json({
+              "result": "failed",
+              "errorMsg": err.message,
+              "errorCode": VError.info(err).errno
+          });
     });
 });
 
@@ -267,6 +298,12 @@ router.get('/getXciDataLength/:did', function(req, res){
               "errorMsg": null,
               "errorCode": null,
               "content": length
+          });
+    }).fail((err)=>{
+        res.json({
+              "result": "failed",
+              "errorMsg": err.message,
+              "errorCode": VError.info(err).errno
           });
     });
 });
@@ -320,6 +357,12 @@ router.post('/getXciData', function(req, res){
               "errorCode": null,
               "content": data
           });
+    }).fail((err)=>{
+        res.json({
+              "result": "failed",
+              "errorMsg": err.message,
+              "errorCode": VError.info(err).errno
+          });
     });
 });
 
@@ -352,6 +395,12 @@ router.get('/getXciDataTimestamp/:did/:index', function(req, res){
               "errorCode": null,
               "content": data
           });
+    }).fail((err)=>{
+        res.json({
+              "result": "failed",
+              "errorMsg": err.message,
+              "errorCode": VError.info(err).errno
+          });
     });
 });
 
@@ -377,6 +426,12 @@ router.get('/getAuthorizedDataLength/:address', function(req, res){
               "errorMsg": null,
               "errorCode": null,
               "content": length
+          });
+    }).fail((err)=>{
+        res.json({
+              "result": "failed",
+              "errorMsg": err.message,
+              "errorCode": VError.info(err).errno
           });
     });
 });
@@ -409,6 +464,12 @@ router.get('/getAuthorizedAESKeyByHash/:address/:ipfsHash', function(req, res){
               "errorMsg": null,
               "errorCode": null,
               "content": key
+          });
+    }).fail((err)=>{
+        res.json({
+              "result": "failed",
+              "errorMsg": err.message,
+              "errorCode": VError.info(err).errno
           });
     });
 });
@@ -458,6 +519,12 @@ router.post('/getAuthorizedData', function(req, res){
               "errorCode": null,
               "content": data
           });
+    }).fail((err)=>{
+        res.json({
+              "result": "failed",
+              "errorMsg": err.message,
+              "errorCode": VError.info(err).errno
+          });
     });
 });
 
@@ -497,8 +564,13 @@ router.get('/getAuthorizeEvent/:to/:fromBlockNumber/:toBlockNumber', function(re
               "errorCode": null,
               "content": eventList
           });
+    }).fail((err)=>{
+        res.json({
+              "result": "failed",
+              "errorMsg": err.message,
+              "errorCode": VError.info(err).errno
+          });
     });
-
 });
 
 /**
@@ -537,8 +609,13 @@ router.get('/getCommitEvent/:from/:fromBlockNumber/:toBlockNumber', function(req
               "errorCode": null,
               "content": eventList
           });
+    }).fail((err)=>{
+        res.json({
+              "result": "failed",
+              "errorMsg": err.message,
+              "errorCode": VError.info(err).errno
+          });
     });
-
 });
 
 
