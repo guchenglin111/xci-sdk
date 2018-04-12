@@ -530,17 +530,22 @@ router.post('/getAuthorizedData', function(req, res){
 
 /**
  * @swagger
- * path: /xcare/getAuthorizeEvent/{to}/{fromBlockNumber}/{toBlockNumber}
+ * path: /xcare/getAuthorizeEvent/{from}/{to}/{fromBlockNumber}/{toBlockNumber}
  * operations:
  *   - httpMethod: GET
  *     nickname: getAuthorizeEvent
  *     summary: get xci data length
  *     parameters:
+ *       - name: from
+ *         paramType: path
+ *         dataType: string
+ *         description:
+ *         required: false
  *       - name: to
  *         paramType: path
  *         dataType: string
  *         description:
- *         required: true
+ *         required: false
  *       - name: fromBlockNumber
  *         paramType: path
  *         dataType: int
@@ -553,11 +558,12 @@ router.post('/getAuthorizedData', function(req, res){
  *         required: true
 
  */
-router.get('/getAuthorizeEvent/:to/:fromBlockNumber/:toBlockNumber', function(req, res){
+router.get('/getAuthorizeEvent/:from/:to/:fromBlockNumber/:toBlockNumber', function(req, res){
+  let from = req.params.from;
   let to= req.params.to;
   let fromBlockNumber = req.params.fromBlockNumber;
   let toBlockNumber = req.params.toBlockNumber
-  return web3.getXcdataAuthorizeEvent(fromBlockNumber,toBlockNumber,to).then((eventList)=>{
+  return web3.getXcdataAuthorizeEvent(from,to,fromBlockNumber,toBlockNumber).then((eventList)=>{
         res.json({
               "result": "success",
               "errorMsg": null,
@@ -585,7 +591,7 @@ router.get('/getAuthorizeEvent/:to/:fromBlockNumber/:toBlockNumber', function(re
  *         paramType: path
  *         dataType: string
  *         description:
- *         required: true
+ *         required: false
  *       - name: fromBlockNumber
  *         paramType: path
  *         dataType: int
@@ -602,7 +608,7 @@ router.get('/getCommitEvent/:from/:fromBlockNumber/:toBlockNumber', function(req
   let from= req.params.from;
   let fromBlockNumber = req.params.fromBlockNumber;
   let toBlockNumber = req.params.toBlockNumber
-  return web3.getXcdataCommitEvent(fromBlockNumber,toBlockNumber,from).then((eventList)=>{
+  return web3.getXcdataCommitEvent(from,fromBlockNumber,toBlockNumber,).then((eventList)=>{
         res.json({
               "result": "success",
               "errorMsg": null,
@@ -618,5 +624,98 @@ router.get('/getCommitEvent/:from/:fromBlockNumber/:toBlockNumber', function(req
     });
 });
 
+/**
+ * @swagger
+ * path: /xcare/getTransferDidEvent/{from}/{to}/{fromBlockNumber}/{toBlockNumber}
+ * operations:
+ *   - httpMethod: GET
+ *     nickname: getCommitEvent
+ *     summary: get xci data length
+ *     parameters:
+ *       - name: from
+ *         paramType: path
+ *         dataType: string
+ *         description:
+ *         required: false
+ *       - name: to
+ *         paramType: path
+ *         dataType: string
+ *         description:
+ *         required: false
+ *       - name: fromBlockNumber
+ *         paramType: path
+ *         dataType: int
+ *         description:
+ *         required: true
+ *       - name: toBlockNumber
+ *         paramType: path
+ *         dataType: int
+ *         description:
+ *         required: true
+ */
+router.get('/getTransferDidEvent/:from/:to/:fromBlockNumber/:toBlockNumber', function(req, res){
+  let from= req.params.from;
+  let to = req.params.to;
+  let fromBlockNumber = req.params.fromBlockNumber
+  let toBlockNumber = req.params.toBlockNumber
+  return web3.getXcdataTransferDidEvent(from,to,fromBlockNumber,toBlockNumber).then((eventList)=>{
+        res.json({
+              "result": "success",
+              "errorMsg": null,
+              "errorCode": null,
+              "content": eventList
+          });
+    }).fail((err)=>{
+        res.json({
+              "result": "failed",
+              "errorMsg": err.message,
+              "errorCode": VError.info(err).errno
+          });
+    });
+});
+
+/**
+ * @swagger
+ * path: /xcare/getDeleteDidEvent/{from}/{fromBlockNumber}/{toBlockNumber}
+ * operations:
+ *   - httpMethod: GET
+ *     nickname: getCommitEvent
+ *     summary: get xci data length
+ *     parameters:
+ *       - name: from
+ *         paramType: path
+ *         dataType: string
+ *         description:
+ *         required: false
+ *       - name: fromBlockNumber
+ *         paramType: path
+ *         dataType: int
+ *         description:
+ *         required: true
+ *       - name: toBlockNumber
+ *         paramType: path
+ *         dataType: int
+ *         description:
+ *         required: true
+ */
+router.get('/getDeleteDidEvent/:from/:fromBlockNumber/:toBlockNumber', function(req, res){
+  let from = req.params.from;
+  let fromBlockNumber = req.params.fromBlockNumber;
+  let toBlockNumber = req.params.toBlockNumber
+  return web3.getXcdataDeleteDidEvent(from,fromBlockNumber,toBlockNumber).then((eventList)=>{
+        res.json({
+              "result": "success",
+              "errorMsg": null,
+              "errorCode": null,
+              "content": eventList
+          });
+    }).fail((err)=>{
+        res.json({
+              "result": "failed",
+              "errorMsg": err.message,
+              "errorCode": VError.info(err).errno
+          });
+    });
+});
 
 module.exports = router;
