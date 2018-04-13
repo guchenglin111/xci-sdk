@@ -9,6 +9,16 @@ var logger = require('../lib/common/winstonlog.js');
 const web3 = require('../lib/common/xcare.js');
 const VError = require('verror');
 const Q = require('q');
+
+const addressLength = 42;
+const defaultAddress = "0x00000000000000000000000000000000";
+
+addressCheck = (address) => {
+  if(address.length != addressLength){
+    logger.info("Invalid address, use defauleAddress: 0x00000000000000000000000000000000");
+    return defaultAddress;
+  }
+}
 //const toInt = ((n)=> typeof n === 'number'? n : parseInt(n));
 /**
  *  @swagger
@@ -559,8 +569,8 @@ router.post('/getAuthorizedData', function(req, res){
 
  */
 router.get('/getAuthorizeEvent/:from/:to/:fromBlockNumber/:toBlockNumber', function(req, res){
-  let from = req.params.from;
-  let to= req.params.to;
+  let from = addressCheck(req.params.from);
+  let to= addressCheck(req.params.to);
   let fromBlockNumber = req.params.fromBlockNumber;
   let toBlockNumber = req.params.toBlockNumber
   return web3.getXcdataAuthorizeEvent(from,to,fromBlockNumber,toBlockNumber).then((eventList)=>{
@@ -605,7 +615,7 @@ router.get('/getAuthorizeEvent/:from/:to/:fromBlockNumber/:toBlockNumber', funct
 
  */
 router.get('/getCommitEvent/:from/:fromBlockNumber/:toBlockNumber', function(req, res){
-  let from= req.params.from;
+  let from= addressCheck(req.params.from);
   let fromBlockNumber = req.params.fromBlockNumber;
   let toBlockNumber = req.params.toBlockNumber
   return web3.getXcdataCommitEvent(from,fromBlockNumber,toBlockNumber,).then((eventList)=>{
@@ -654,8 +664,8 @@ router.get('/getCommitEvent/:from/:fromBlockNumber/:toBlockNumber', function(req
  *         required: true
  */
 router.get('/getTransferDidEvent/:from/:to/:fromBlockNumber/:toBlockNumber', function(req, res){
-  let from= req.params.from;
-  let to = req.params.to;
+  let from= addressCheck(req.params.from);
+  let to = addressCheck(req.params.to);
   let fromBlockNumber = req.params.fromBlockNumber
   let toBlockNumber = req.params.toBlockNumber
   return web3.getXcdataTransferDidEvent(from,to,fromBlockNumber,toBlockNumber).then((eventList)=>{
@@ -699,7 +709,7 @@ router.get('/getTransferDidEvent/:from/:to/:fromBlockNumber/:toBlockNumber', fun
  *         required: true
  */
 router.get('/getDeleteDidEvent/:from/:fromBlockNumber/:toBlockNumber', function(req, res){
-  let from = req.params.from;
+  let from = addressCheck(req.params.from);
   let fromBlockNumber = req.params.fromBlockNumber;
   let toBlockNumber = req.params.toBlockNumber
   return web3.getXcdataDeleteDidEvent(from,fromBlockNumber,toBlockNumber).then((eventList)=>{
